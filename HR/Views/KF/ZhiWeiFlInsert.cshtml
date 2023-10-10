@@ -1,0 +1,121 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-trasitional.dtd">
+<html>
+<head>
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"
+          href="../../css/table.css" type="text/css">
+    <script type="text/javascript"
+            src="../../javascript/comm/comm.js">
+    </script>
+    <style>
+        #bd {
+            height: 30px;
+            width: 300px;
+        }
+
+        .el-form-item {
+            margin-left: -100px !important;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="app">
+
+        <el-form :model="InsertData" :rules="urules" ref="uruleForm" label-width="100px">
+
+            <table width="100%">
+                <tr>
+                    <td>
+                        <font color="black">
+                            您正在做的业务是：人力资源--客户化设置--人力资源档案管理设置--职位设置--职位添加
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="button" v-on:click="tj()" value="提交" class="BUTTON_STYLE1">
+                        <input type="button" value="返回" class="BUTTON_STYLE1"
+                               onclick="history.back();">
+                    </td>
+                </tr>
+            </table>
+
+            <table width="100%" border="1" cellpadding=0 cellspacing=1
+                   bordercolor
+                   light=#848284 bordercolordark=#eeeeee
+                   class="TABLE_STYLE1">
+
+                <tr>
+                    <td class="TD_STYLE1" width="19%">
+                        职位分类编号
+                    </td>
+                    <td class="TD_STYLE2" width="81%">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1" width="19%">
+                        职位分类名称
+                    </td>
+                    <td class="TD_STYLE2" width="81%">
+                        <el-form-item prop="name">
+                            <el-input type="text" id="bd" v-model="InsertData.name" class="INPUT_STYLE1" name="cm.majorKindName" />
+                        </el-form-item>
+                    </td>
+                </tr>
+            </table>
+        </el-form>
+    </div>
+
+    <script>
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                InsertData: {
+                    id:"",
+                    name:""
+                },
+                urules: {
+                    name: { required: true, message: '职位分类名称', trigger: 'blur' },
+                },
+            },
+            methods: {
+                tj() {
+                    this.$refs.uruleForm.validate((valid) => {
+                        if (valid) {
+                            axios.get('/KF/ZhiWeiFlInsert1', {
+                                params: {
+                                    major_kind_id: "",
+                                    major_kind_name: this.InsertData.name
+                                }
+                            }).then(res => {
+                                if (res.data > 0) {
+                                    alert("添加成功")
+                                    location.href = '/KF/ZhiWeiFl_index';
+                                }
+                            }).catch(err => {
+                                console.log(err);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                }
+            },
+        })
+    </script>
+</body>
+</html>
+
+

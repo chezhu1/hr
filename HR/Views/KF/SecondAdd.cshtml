@@ -1,0 +1,196 @@
+﻿
+@{
+    Layout = null;
+    IEnumerable<First_kind> big = ViewBag.s;
+
+}
+@using Models;
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-trasitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"
+          href="../../css/table.css" type="text/css">
+    <script type="text/javascript"
+            src="../../javascript/comm/comm.js">
+    </script>
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+    <style>
+        #bd {
+            height: 30px;
+            width: 300px;
+        }
+
+        .el-form-item {
+            margin-left: -100px !important;
+        }
+    </style>
+</head>
+
+<script type="text/javascript">
+    function check() {
+        if (document.getElementById("firstKind.ffkId").value == 0) {
+            alert("请选择I级机构名称!!!");
+            return false;
+        }
+        if (document.getElementById("secondKind.secondKindName").value == "") {
+            alert("II级机构名称不能为空!!!");
+            return false;
+        }
+        if (document.getElementById("secondKind.secondSalaryId").value == "") {
+            alert("薪酬发放责任人编号不能为空!!!");
+            return false;
+        }
+        if (document.getElementById("secondKind.secondSaleId").value == "") {
+            alert("销售责任人编号不能为空!!!");
+            return false;
+        }
+        document.forms[0].submit();
+    }
+    function change() {
+        var se = document.getElementById("firstKindId");
+        document.getElementById("firstKindName").value = se.options[se.selectedIndex].innerHTML;
+
+    }
+</script>
+<body>
+    <div id="app">
+        <el-form :model="InsertData" :rules="urules" ref="uruleForm" label-width="100px">
+            <input type="hidden" id="firstKindName" name="cfsk.firstKindName">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <font color="black">
+                            您正在做的业务是：人力资源--客户化设置--人力资源档案管理设置--II级机构设置--II级机构添加
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="button" value="提交" class="BUTTON_STYLE1" v-on:click="tj()">
+                        <input type="button" value="返回" class="BUTTON_STYLE1"
+                               onclick="history.back();">
+                    </td>
+                </tr>
+            </table>
+
+
+            <table width="100%" border="1" cellpadding=0 cellspacing=1
+                   bordercolorlight=#848284 bordercolordark=#eeeeee
+                   class="TABLE_STYLE1">
+                <tr>
+                    <td width="19%" class="TD_STYLE1">
+                        I级机构名称
+                    </td>
+                    <td width="81%" class="TD_STYLE2">
+                        <el-select v-model="InsertData.name1" name="cfsk.firstKindId" id="firstKindId" onchange="change()">
+                            <el-option value="">请选择I级机构名称</el-option>
+                            @foreach (First_kind item in big)
+                            {
+                                <el-option label='@item.first_kind_name' value='@item.first_kind_id'>@item.first_kind_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="19%" class="TD_STYLE1">
+                        II级机构编号
+                    </td>
+                    <td width="81%" class="TD_STYLE2">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        II级机构名称
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="name2">
+                            <el-input type="text" v-model="InsertData.name2" id="bd" class="INPUT_STYLE1" name="cfsk.secondKindName" value="" />
+                        </el-form-item>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        薪酬发放责任人编号（多个编号之间请用"半角逗号"加"一个空格"隔开，如", "）
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="xc">
+                            <el-input type="textarea" v-model="InsertData.xc" rows="3" style="width:500px" cols="" class="TEXTAREA_STYLE1" name="cfsk.secondSalaryId"></el-input>
+
+                        </el-form-item>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        销售责任人编号（多个编号之间请用"半角逗号"加"一个空格"隔开，如", "）
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="xs">
+                            <el-input rows="3" type="textarea" v-model="InsertData.xs" style="width:500px" name="cfsk.secondSaleId"></el-input>
+                        </el-form-item>
+                    </td>
+
+                </tr>
+            </table>
+
+
+           
+        </el-form>
+    </div>
+
+    <script type="text/javascript">
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                InsertData: {
+                    name1: "",
+                    name2: "",
+                    xc: "",
+                    xs: ""
+                },
+                urules: {
+                    name2: { required: true, message: '请输入II级机构名称', trigger: 'blur' },
+                    xc: { required: true, message: '请输入薪酬发放责任人编号', trigger: 'blur' },
+                    xs: { required: true, message: '请输入销售责任人编号', trigger: 'blur' },
+                },
+            },
+            methods: {
+                //添加
+                tj() {
+                    this.$refs.uruleForm.validate((valid) => {
+                        if (valid) {
+                            axios.get('/KF/SecondInsert', {
+                                params: {
+                                    first_kind_id: this.InsertData.name1,
+                                    second_kind_id: "",
+                                    second_kind_name: this.InsertData.name2,
+                                    second_salary_id: this.InsertData.xc,
+                                    second_sale_id: this.InsertData.xs
+                                },
+                            }).then(res => {
+                                if (res.data > 0) {
+                                    alert("添加成功");
+                                    location.href = "/KF/Second_index";
+                                }
+                            }).catch(err => {
+                                console.log(err);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                }
+            },
+        })
+    </script>
+
+</body>
+</html>
+
+

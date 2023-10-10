@@ -1,0 +1,536 @@
+﻿
+@{
+    Layout = null;
+    IEnumerable<First_kind> A1 = ViewBag.s;
+    IEnumerable<Second_kind> A2 = ViewBag.ss;
+    IEnumerable<Third_kind> A3 = ViewBag.sss;
+    IEnumerable<Major_kind> A4 = ViewBag.zw;
+    IEnumerable<Major> A5 = ViewBag.mc;
+    IEnumerable<PublicChar> A6 = ViewBag.zc;
+    IEnumerable<PublicChar> A7 = ViewBag.gj;
+    IEnumerable<PublicChar> A8 = ViewBag.mz;
+    IEnumerable<PublicChar> A9 = ViewBag.zjxy;
+    IEnumerable<PublicChar> A10 = ViewBag.zzmm;
+    IEnumerable<PublicChar> A11 = ViewBag.xl;
+    IEnumerable<PublicChar> A12 = ViewBag.jynx;
+    IEnumerable<PublicChar> A13 = ViewBag.xcsz;
+    IEnumerable<PublicChar> A14 = ViewBag.tc;
+    IEnumerable<PublicChar> A15 = ViewBag.ah;
+    IEnumerable<PublicChar> A16 = ViewBag.xlzy;
+}
+@using Models;
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-trasitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"
+          href="../../css/table.css" type="text/css">
+    <link rel="stylesheet"
+          href="../../css/cwcalendar.css" type="text/css">
+    <script type="text/javascript"
+            src="../../javascript/jquery-1.7.2.js">
+    </script>
+    <script type="text/javascript"
+            src="../../javascript/jquery.messager.js">
+    </script>
+    <script type="text/javascript"
+            src="../../javascript/comm/comm.js">
+    </script>
+    <script type="text/javascript"
+            src="../../javascript/comm/select.js">
+    </script>
+    <script type="text/javascript"
+            src="../../javascript/calendar-ch.js">
+    </script>
+    <script type="text/javascript"
+            src="../../javascript/time.js">
+    </script>
+    <script type="text/javascript"
+            src="../../javascript/human_register.js">
+    </script>
+    <script type="text/javascript"
+            src="../../javascript/human_input_check.js">
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <el-form :model="InsertData" ref="uruleForm" label-width="100px">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <font color="black">您正在做的业务是：人力资源--人力资源档案管理--人力资源档案登记 </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="submit" value="提交" class="BUTTON_STYLE1" v-on:click="mysubmit()"/>
+                        <input type="reset" value="清除" class="BUTTON_STYLE1" />
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" border="1" cellpadding=3 cellspacing=1
+                   bordercolorlight=#848284 bordercolordark=#eeeeee
+                   class="TABLE_STYLE1">
+                <tr>
+                    <td class="TD_STYLE1" width="11%">
+                        I级机构
+                    </td>
+                    <td width="14%" class="TD_STYLE2">
+                        <el-select v-model="InsertData.name1">
+                            @foreach (First_kind item in A1)
+                            {
+                                <el-option label='@item.first_kind_name' value='@item.first_kind_id'>@item.first_kind_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td width="11%" class="TD_STYLE1">
+                        II级机构
+                    </td>
+                    <td width="14%" class="TD_STYLE2">
+                        <el-select v-model="InsertData.name2">
+
+                            @foreach (Second_kind item in A2)
+                            {
+                                <el-option label='@item.second_kind_name' value='@item.second_kind_id'>@item.second_kind_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td width="11%" class="TD_STYLE1">
+                        III级机构
+                    </td>
+                    <td class="TD_STYLE2" colspan="2">
+                        <el-select v-model="InsertData.name3">
+
+                            @foreach (Third_kind item in A3)
+                            {
+                                <el-option label='@item.third_kind_name' value='@item.third_kind_id'>@item.third_kind_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td rowspan="5" style="text-align: center;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        职位分类
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name4">
+
+                            @foreach (Major_kind item in A4)
+                            {
+                                <el-option label='@item.major_kind_name' value='@item.major_kind_id'>@item.major_kind_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        职位名称
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name5">
+
+                            @foreach (Major item in A5)
+                            {
+                                <el-option label='@item.major_name' value='@item.major_id'>@item.major_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        职称
+                    </td>
+                    <td colspan="2" class="TD_STYLE2">
+                        <el-select v-model="InsertData.name6">
+
+                            @foreach (PublicChar item in A6)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        姓名
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="name" v-model="InsertData.name" class="INPUT_STYLE2" name="name" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        性别
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.xb" class="SELECT_STYLE1">
+                            <el-option value="男">男</el-option>
+                            <el-option value="女">女</el-option>
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        EMAIL
+                    </td>
+                    <td colspan="2" class="TD_STYLE2">
+                        <el-input type="text" id="email" v-model="InsertData.email" class="INPUT_STYLE2" name="email" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        电话
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="phone" v-model="InsertData.phone" class="INPUT_STYLE2" name="phone" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        QQ
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="qq" v-model="InsertData.qq" class="INPUT_STYLE2" name="qq" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        手机
+                    </td>
+                    <td colspan="2" class="TD_STYLE2">
+                        <el-input type="text" id="phone1" v-model="InsertData.phone1" class="INPUT_STYLE2" name="phone1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        住址
+                    </td>
+                    <td colspan="3" class="TD_STYLE2">
+                        <el-input type="text" id="address" v-model="InsertData.address" class="INPUT_STYLE2" name="address" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        邮编
+                    </td>
+                    <td colspan="2" class="TD_STYLE2">
+                        <el-input type="text" id="yb" v-model="InsertData.yb" class="INPUT_STYLE2" name="yb" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        国籍
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name7">
+
+                            @foreach (PublicChar item in A7)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        出生地
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="csd" v-model="InsertData.csd" class="INPUT_STYLE2" name="csd" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        生日
+                    </td>
+                    <td width="13%" class="TD_STYLE2">
+                        <el-input type="text" id="sr" v-model="InsertData.sr" class="INPUT_STYLE2" name="sr" />
+                    </td>
+                    <td width="11%" class="TD_STYLE1">
+                        民族
+                    </td>
+                    <td class="TD_STYLE2" width="14%">
+                        <el-select v-model="InsertData.name8">
+
+                            @foreach (PublicChar item in A8)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        宗教信仰
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name9">
+
+                            @foreach (PublicChar item in A9)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        政治面貌
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name10">
+
+                            @foreach (PublicChar item in A10)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        身份证号码
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="sfz" v-model="InsertData.sfz" class="INPUT_STYLE2" name="sfz" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        社会保障号码
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="shbz" v-model="InsertData.shbz" class="INPUT_STYLE2" name="shbz" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        年龄
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="age" v-model="InsertData.age" class="INPUT_STYLE2" name="age" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        学历
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name11">
+
+                            @foreach (PublicChar item in A11)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        教育年限
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name12">
+
+                            @foreach (PublicChar item in A12)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        学历专业
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name16">
+
+                            @foreach (PublicChar item in A16)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        薪酬标准
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name13">
+
+                            @foreach (PublicChar item in A13)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        开户行
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="khh" v-model="InsertData.khh" class="INPUT_STYLE2" name="khh" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        帐号
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="zh" v-model="InsertData.zh" class="INPUT_STYLE2" name="zh" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        登记人
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" name="InsertData.user" value="better_admin"
+                               readonly="readonly" class="INPUT_STYLE2">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        建档时间
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="jdsj" v-model="InsertData.jdsj" class="INPUT_STYLE2" name="jdsj" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        特长
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name14">
+
+                            @foreach (PublicChar item in A14)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        爱好
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="InsertData.name15">
+
+                            @foreach (PublicChar item in A15)
+                            {
+                                <el-option label='@item.attribute_name' value='@item.attribute_name'>@item.attribute_name</el-option>
+                            }
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        &nbsp;
+                    </td>
+                    <td class="TD_STYLE2">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        个人履历
+                    </td>
+                    <td colspan="7" class="TD_STYLE2">
+                        <el-input type="text" id="grfl" v-model="InsertData.grfl" class="INPUT_STYLE2" name="grfl" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        家庭关系信息
+                    </td>
+                    <td colspan="7" class="TD_STYLE2">
+                        <el-input type="text" id="jtgx" v-model="InsertData.jtgx" class="INPUT_STYLE2" name="jtgx" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        备注
+                    </td>
+                    <td colspan="7" class="TD_STYLE2">
+                        <el-input type="text" id="bz" v-model="InsertData.bz" class="INPUT_STYLE2" name="bz" />
+                    </td>
+                </tr>
+            </table>
+            </el-form>
+    </div>
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+    <script type="text/javascript">
+        var vue = new Vue({
+            el:"#app",
+            data: {
+                InsertData: {
+                    name1: "",
+                    name2: "",
+                    name3: "",
+                    name4: "",
+                    name5: "",
+                    name6: "",
+                    name7: "",
+                    name8: "",
+                    name9: "",
+                    name10: "",
+                    name11: "",
+                    name12: "",
+                    name13: "",
+                    name14: "",
+                    name15: "",
+                    name16:"",
+                    name: "",
+                    xb: "",
+                    email: "",
+                    phone: "",
+                    phone1: "",
+                    qq: "",
+                    address: "",
+                    yb: "",
+                    csd: "",
+                    sr: "",
+                    sfz: "",
+                    shbz: "",
+                    age: "",
+                    khh: "",
+                    zh: "",
+                    user: "",
+                    jdsj: "",
+                    grfl: "",
+                    jtgx: "",
+                    bz: "",
+
+                }
+            },
+            methods: {
+                mysubmit() {
+                    axios.get('/Rlzy/Rlzy_Dj_Insert1', {
+                        params: {
+                            first_kind_id: this.InsertData.name1,
+                            second_kind_id: this.InsertData.name2,
+                            third_kind_id: this.InsertData.name3,
+                            major_kind_id: this.InsertData.name4,
+                            major_id: this.InsertData.name5,
+                            human_name: this.InsertData.name,
+                            human_address: this.InsertData.address,
+                            human_postcode: this.InsertData.yb,
+                            human_pro_designation: this.InsertData.name6,
+                            human_telephone: this.InsertData.phone,
+                            human_mobilephone: this.InsertData.phone1,
+                            human_bank: this.InsertData.khh,
+                            human_account: this.InsertData.zh,
+                            human_qq: this.InsertData.qq,
+                            human_email: this.InsertData.email,
+                            human_hobby: this.InsertData.name15,
+                            human_speciality: this.InsertData.name14,
+                            human_sex: this.InsertData.xb,
+                            human_religion: this.InsertData.name9,
+                            human_party: this.InsertData.name10,
+                            human_nationality: this.InsertData.name7,
+                            human_race: this.InsertData.name8,
+                            human_birthday: this.InsertData.sr,
+                            human_birthplace: this.InsertData.csd,
+                            human_age: this.InsertData.age,
+                            human_educated_degree: this.InsertData.name11,
+                            human_educated_years: this.InsertData.name12,
+                            human_educated_major: this.InsertData.name16,
+                            human_society_security_id: this.InsertData.shbz,
+                            human_id_card: this.InsertData.sfz,
+                            remark: this.InsertData.bz,
+                            salary_standard_name: this.InsertData.name13,
+                            human_histroy_records: this.InsertData.grfl,
+                            human_family_membership: this.InsertData.jtgx,
+                            register: "better_admin",
+                            regist_time: this.InsertData.jdsj
+                        }
+                    }).then(res => {
+                        if (res.data > 0) {
+                            alert("添加成功！")
+                        }
+                    }).catch(err => {
+                        console.loh(err);
+                    })
+                    alert(1)
+                },
+                mounted() {
+
+                },
+
+            }
+        })
+    </script>
+</body>
+</html>
+
+

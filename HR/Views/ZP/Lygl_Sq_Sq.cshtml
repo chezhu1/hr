@@ -1,0 +1,733 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-trasitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>My JSP 'interview-register.jsp' starting page</title>
+    <link rel="stylesheet"
+          href="../../../css/table.css" type="text/css">
+    <link rel="stylesheet"
+          href="../../../css/cwcalendar.css"
+          type="text/css">
+    <script type="text/javascript"
+            src="../../../javascript/comm/comm.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/comm/list.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/calendar-ch.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/jquery-1.7.2.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/locate.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/select.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/comm/time.js">
+    </script>
+
+
+    <script type="text/javascript">
+        function search() {
+            if (document.getElementById("date").value == "") {
+                alert("请选择面试时间");
+            } else {
+                document.interviewForm.submit();
+            }
+        }
+    </script>
+    <script type="text/javascript">
+
+
+        function toPhoto(data) {
+            var a = data.substring(data.indexOf(".") + 1)
+            if (a != "jpg" && a != "gif" && a != "bmp") {
+                alert("您上传的不是图片路径");
+            }
+        }
+
+        function toPhotofile(da) {
+            var a = da.substring(da.indexOf(".") + 1)
+            if (a != "doc") {
+                alert("您上传的不是文件路径");
+            }
+        }
+
+        var validateMsg = "";
+        function checkNotEmpty(ctlName, label) {
+            var oCtl = document.forms[0].elements[ctlName];
+            if (oCtl.value == "") {
+                if (label) {
+                    validateMsg += label;
+                }
+                validateMsg += "不能为空！\n";
+                oCtl.focus();
+            }
+        }
+
+        function checkValidateMsg() {
+            if (validateMsg != "") {
+                alert(validateMsg);
+                return false;
+            }
+            return true;
+        }
+
+        function tosubmit() {
+            validateMsg = "";
+            checkNotEmpty("ei.checker", "筛选人");
+            checkNotEmpty("ei.checkComment", "录用申请审核意见");
+            if (!checkValidateMsg()) {
+                return;
+            }
+            document.forms[0].elements["operate"].value = "doAdopt";
+            document.forms[0].submit();
+        }
+
+
+        function tozwfenlei(id) {
+            $("er.humanMajorKindName").value = $("er.humanMajorKindId").options[$("er.humanMajorKindId").selectedIndex].outerText;
+            engageResume.SelectConfig_major(id, callbackkind)
+        }
+
+        function callbackkind(data) {
+            $("er.humanMajorId").options.length = 0;
+            var o = new Option("--请选择--", 0);
+            $("er.humanMajorId").add(o);
+            DWRUtil.addOptions("er.humanMajorId", data, "majorId", "majorName");
+        }
+        function zwmingchen() {
+            $("er.humanMajorName").value = $("er.humanMajorId").options[$("er.humanMajorId").selectedIndex].outerText;
+        }
+
+
+
+
+        //load事件
+        function check() {
+            //获得系统当前时间的方法
+            tick();
+        }
+
+        function mians() {
+            document.getElementById("passCheckcomment").value = "不通过";
+
+        }
+        function bis() {
+            document.getElementById("passCheckcomment").value = "通过";
+        }
+
+    </script>
+    <script type="text/javascript">
+        function search(id) {
+            if (document.getElementById("passCheckcomment").value == "删除简历") {
+                //	window.location.href="/HR_Fist/recruit/recruitAction!deleteResumeById?id="+id;
+                document.fm.submit();
+            } else if (document.getElementById("passCheckcomment").value == "建议录用") {
+                document.getElementById("ly").value = true;
+                document.fm.submit();
+            } else if (document.getElementById("passCheckcomment").value == "建议面试") {
+                document.getElementById("mianshi").value = false;
+                document.fm.submit();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        @{ Models.Engage_resume er = ViewBag.s;}
+        <el-form ref="form" :model="ruleForm" :rules="rules">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <font color="black">您正在做的业务是：人力资源--招聘管理--录用管理--录用申请</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="radio" name="ei.result" value="释放简历" onclick="mians()">释放简历
+                        <input type="radio" name="ei.result" value="申请录用" onclick="bis()">申请录用
+                        <input type="button" value="确认" class="BUTTON_STYLE1"
+                               v-on:click="search()">
+                        <input type="button" value="返回" class="BUTTON_STYLE1"
+                               onclick="history.back();">
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" border="1" cellpadding=0 cellspacing=1
+                   bordercolorlight=#848284 bordercolordark=#eeeeee
+                   class="TABLE_STYLE1">
+                <tr>
+                    <td class="TD_STYLE1">
+                        职位分类
+                    </td>
+                    <td class="TD_STYLE2">
+
+                        <el-form-item prop="fl">
+                            <el-input v-model="ruleForm.fl" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        职位名称
+                    </td>
+                    <td class="TD_STYLE2" width="20%">
+                        <el-form-item prop="zw">
+                            <el-input v-model="ruleForm.zw" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td width="11%" class="TD_STYLE1">
+                        招聘类型
+                    </td>
+                    <td class="TD_STYLE2" colspan="2">
+                        <el-select v-model="ruleForm.lx" disabled>
+                            <el-option v-for="item in options1"
+                                       :key="item.value"
+                                       :label="item.label"
+                                       :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </td>
+                    <td rowspan="6">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        姓名
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="xm">
+                            <el-input v-model="ruleForm.xm" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        性别
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="xb">
+                            <el-input v-model="ruleForm.xb" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        EMAIL
+                    </td>
+                    <td colspan="2" class="TD_STYLE2">
+                        <el-form-item prop="yx">
+                            <el-input v-model="ruleForm.yx" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        电话
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="dh">
+                            <el-input v-model="ruleForm.dh" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        家庭电话
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="jt">
+                            <el-input v-model="ruleForm.jt" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        手机
+                    </td>
+                    <td colspan="2" class="TD_STYLE2">
+                        <el-form-item prop="sj">
+                            <el-input v-model="ruleForm.sj" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        住址
+                    </td>
+                    <td colspan="3" class="TD_STYLE2">
+                        <el-form-item prop="zz">
+                            <el-input v-model="ruleForm.zz" disabled></el-input>
+                        </el-form-item>
+                    </td>
+
+                    <td class="TD_STYLE1">
+                        邮编
+                    </td>
+                    <td colspan="2" class="TD_STYLE2">
+                        <el-form-item prop="yb">
+                            <el-input v-model="ruleForm.yb" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="TD_STYLE1">
+                        国籍
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="ruleForm.gj" disabled>
+                            <el-option v-for="item in options2"
+                                       :key="item.value2"
+                                       :label="item.label2"
+                                       :value="item.value2">
+                            </el-option>
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        出生地
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="cs">
+                            <el-input v-model="ruleForm.cs" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        生日
+                    </td>
+                    <td width="13%" colspan="2" class="TD_STYLE2">
+                        <el-date-picker v-model="ruleForm.sr"
+                                        type="date"
+                                        placeholder="选择日期" disabled>
+                        </el-date-picker>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td width="11%" class="TD_STYLE1">
+                        民族
+                    </td>
+                    <td class="TD_STYLE2" width="14%">
+                        <el-select v-model="ruleForm.mz" disabled>
+                            <el-option v-for="item in options3"
+                                       :key="item.value3"
+                                       :label="item.label3"
+                                       :value="item.value3">
+                            </el-option>
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        宗教信仰
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="ruleForm.xy" disabled>
+                            <el-option v-for="item in options4"
+                                       :key="item.value4"
+                                       :label="item.label4"
+                                       :value="item.value4">
+                            </el-option>
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        政治面貌
+                    </td>
+                    <td class="TD_STYLE2" colspan="2">
+                        <el-select v-model="ruleForm.mm" disabled>
+                            <el-option v-for="item in options5"
+                                       :key="item.value5"
+                                       :label="item.label5"
+                                       :value="item.value5">
+                            </el-option>
+                        </el-select>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        身份证号码
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="sf">
+                            <el-input v-model="ruleForm.sf" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        年龄
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="nl">
+                            <el-input v-model="ruleForm.nl" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        毕业院校
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="by">
+                            <el-input v-model="ruleForm.by" disabled></el-input>
+                        </el-form-item>
+                    </td>
+
+                    <td class="TD_STYLE1">
+                        学历
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="ruleForm.xl" disabled>
+                            <el-option v-for="item in options6"
+                                       :key="item.value6"
+                                       :label="item.label6"
+                                       :value="item.value6">
+                            </el-option>
+                        </el-select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        教育年限
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="ruleForm.jy" disabled>
+                            <el-option v-for="item in options7"
+                                       :key="item.value7"
+                                       :label="item.label7"
+                                       :value="item.value7">
+                            </el-option>
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        学历专业
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="ruleForm.zy" disabled>
+                            <el-option v-for="item in options8"
+                                       :key="item.value8"
+                                       :label="item.label8"
+                                       :value="item.value8">
+                            </el-option>
+                        </el-select>
+                    </td>
+
+                    <td class="TD_STYLE1">
+                        薪酬要求
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="yq">
+                            <el-input v-model="ruleForm.yq" disabled></el-input>
+                        </el-form-item>
+                    </td>
+                    <td class="TD_STYLE1">
+                        注册时间
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="zc">
+                            <el-input v-model="ruleForm.zc" disabled></el-input>
+                        </el-form-item>
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td class="TD_STYLE1">
+                        特长
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="ruleForm.tc" disabled>
+                            <el-option v-for="item in options9"
+                                       :key="item.value9"
+                                       :label="item.label9"
+                                       :value="item.value9">
+                            </el-option>
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        爱好
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-select v-model="ruleForm.ah" disabled>
+                            <el-option v-for="item in options10"
+                                       :key="item.value10"
+                                       :label="item.label10"
+                                       :value="item.value10">
+                            </el-option>
+                        </el-select>
+                    </td>
+                    <td class="TD_STYLE1">
+                        推荐人
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="tj">
+                            <el-input v-model="ruleForm.tj" disabled></el-input>
+                        </el-form-item>
+
+                    </td>
+                    <td class="TD_STYLE1">
+                        推荐时间
+                    </td>
+                    <td class="TD_STYLE2">
+                        @*<el-input type="text" v-model="ruleForm.ts"
+                            id="nowTime" disabled
+                            class="INPUT_STYLE2">*@
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        个人履历
+                    </td>
+                    <td colspan="7" class="TD_STYLE2">
+                        <el-form-item prop="ll">
+                            <el-input v-model="ruleForm.ll" disabled type="textarea" rows="4" class="TEXTAREA_STYLE1"></el-input>
+                        </el-form-item>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="TD_STYLE1">
+                        备注
+                    </td>
+                    <td colspan="7" class="TD_STYLE2">
+                        <el-form-item prop="bz">
+                            <el-input v-model="ruleForm.bz" disabled type="textarea" rows="4" class="TEXTAREA_STYLE1"></el-input>
+                        </el-form-item>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        推荐意见
+                    </td>
+                    <td colspan="7" class="TD_STYLE2">
+                        <el-form-item prop="yj">
+                            <el-input v-model="ruleForm.yj" disabled type="textarea" rows="4" class="TEXTAREA_STYLE1"></el-input>
+                        </el-form-item>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        录用申请审核意见
+                    </td>
+                    <td class="TD_STYLE2" colspan="7">
+                        <textarea name="ruleForm.passCheckcomment" class="TEXTAREA_STYLE1"
+                                  rows="4" readonly="readonly" id="passCheckcomment">建议录用</textarea>
+                    </td>
+                </tr>
+            </table>
+        </el-form>
+    </div>
+
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                ruleForm: {
+                    res_id:"",
+                    fl: "",
+                    zw: "",
+                    lx: "",
+                    xm: "",
+                    xb: "",
+                    yx: "",
+                    dh: "",
+                    sj: "",
+                    zz: "",
+                    yb: "",
+                    gj: "",
+                    cs: "",
+                    sr: "",
+                    mz: "",
+                    xy: "",
+                    mm: "",
+                    sf: "",
+                    nl: "",
+                    by: "",
+                    xl: "",
+                    jy: "",
+                    zy: "",
+                    aq: "",
+                    zc: "",
+                    tc: "",
+                    ah: "",
+                    tj: "",
+                    ts: "",
+                    ll: "",
+                    bz: "",
+                    yj: "",
+                    yq: "",
+                    id: "",
+                    passCheckcomment: "",
+                    taoti:"",
+                },
+                options1: [{
+                    value: '社会招聘',
+                    label: '社会招聘'
+                }, {
+                    value: '校园招聘',
+                    label: '校园招聘'
+                },],
+                options2: [{
+                    value2: '中国',
+                    label2: '中国'
+                }, {
+                    value2: '美国',
+                    label2: '美国'
+                },],
+                options3: [{
+                    value3: '回族',
+                    label3: '回族'
+                }, {
+                    value3: '汉族',
+                    label3: '汉族'
+                },],
+                options4: [{
+                    value4: '无',
+                    label4: '无'
+                }, {
+                    value4: '佛教',
+                    label4: '佛教'
+                }, {
+                    value4: '基督教',
+                    label4: '基督教'
+                },],
+                options5: [{
+                    value5: '群众',
+                    label5: '群众'
+                }, {
+                    value5: '党员',
+                    label5: '党员'
+                },],
+                options6: [{
+                    value6: '高中',
+                    label6: '高中'
+                }, {
+                    value6: '本科',
+                    label6: '本科'
+                }, {
+                    value6: '大专',
+                    label6: '大专'
+                },],
+                options7: [{
+                    value7: '12',
+                    label7: '12'
+                }, {
+                    value7: '9',
+                    label7: '9'
+                },],
+                options8: [{
+                    value8: '生物工程',
+                    label8: '生物工程'
+                }, {
+                    value8: '计算机',
+                    label8: '计算机'
+                },],
+                options9: [{
+                    value9: 'JAVA',
+                    label9: 'JAVA'
+                }, {
+                    value9: '数据库',
+                    label9: '数据库'
+                },],
+                options10: [{
+                    value10: '篮球',
+                    label10: '篮球'
+                }, {
+                    value10: '跳舞',
+                    label10: '跳舞'
+                },],
+                rules: {}
+            }, methods: {
+                fill: function () {
+                    this.ruleForm.checker=@Html.Raw(Json.Encode(er.checker));
+                    this.ruleForm.res_id=@Html.Raw(Json.Encode(er.res_id));
+                    this.ruleForm.fl = @Html.Raw(Json.Encode(er.human_major_kind_name));
+                    this.ruleForm.zw = @Html.Raw(Json.Encode(er.human_major_name));
+                    this.ruleForm.lx = @Html.Raw(Json.Encode(er.engage_type));
+                    this.ruleForm.xm = @Html.Raw(Json.Encode(er.human_name));
+                    this.ruleForm.xb = @Html.Raw(Json.Encode(er.human_sex));
+                    this.ruleForm.yx = @Html.Raw(Json.Encode(er.human_email));
+                    this.ruleForm.jt = @Html.Raw(Json.Encode(er.human_homephone));
+                    this.ruleForm.dh = @Html.Raw(Json.Encode(er.human_telephone));
+                    this.ruleForm.sj = @Html.Raw(Json.Encode(er.human_mobilephone));
+                    this.ruleForm.zz = @Html.Raw(Json.Encode(er.human_address));
+                    this.ruleForm.yb = @Html.Raw(Json.Encode(er.human_postcode));
+                    this.ruleForm.gj = @Html.Raw(Json.Encode(er.human_nationality));
+                    this.ruleForm.cs = @Html.Raw(Json.Encode(er.human_birthplace));
+                    this.ruleForm.sr = @Html.Raw(Json.Encode(er.human_birthday));
+                    this.ruleForm.mz = @Html.Raw(Json.Encode(er.human_race));
+                    this.ruleForm.xy = @Html.Raw(Json.Encode(er.human_religion));
+                    this.ruleForm.mm = @Html.Raw(Json.Encode(er.human_party));
+                    this.ruleForm.sf = @Html.Raw(Json.Encode(er.human_idcard));
+                    this.ruleForm.nl = @Html.Raw(Json.Encode(er.human_age));
+                    this.ruleForm.by = @Html.Raw(Json.Encode(er.human_college));
+                    this.ruleForm.xl = @Html.Raw(Json.Encode(er.human_educated_degree));
+                    this.ruleForm.jy = @Html.Raw(Json.Encode(er.human_educated_years));
+                    this.ruleForm.zy = @Html.Raw(Json.Encode(er.human_educated_major));
+                    this.ruleForm.yq = @Html.Raw(Json.Encode(er.demand_salary_standard));
+                    this.ruleForm.zc = @Html.Raw(Json.Encode(er.regist_time));
+                    this.ruleForm.tc = @Html.Raw(Json.Encode(er.human_specility));
+                    this.ruleForm.ah = @Html.Raw(Json.Encode(er.human_hobby));
+                    this.ruleForm.tj = @Html.Raw(Json.Encode(er.checker));
+                    this.ruleForm.ts = @Html.Raw(Json.Encode(er.check_status));
+                    this.ruleForm.ll = @Html.Raw(Json.Encode(er.human_history_records));
+                    this.ruleForm.bz = @Html.Raw(Json.Encode(er.remark));
+                    this.ruleForm.yj = @Html.Raw(Json.Encode(er.recomandation));
+                    this.ruleForm.id = @Html.Raw(Json.Encode(er.res_id));
+                    this.ruleForm.taoti=@Html.Raw(Json.Encode(er.test_amount));
+                },
+                //面试登记按钮
+                search() {
+                    var coment = document.getElementById("passCheckcomment").value;
+                    if (coment == "通过") {
+                        axios.get('/ZP/Lygl_Sq_Qr', {
+                            params: {
+                                pass_checkComment: coment,
+                            res_id:@Html.Raw(Json.Encode(er.res_id)),
+                            }
+                        }).then(res => {
+                            if (res.data > 0) {
+                                alert("录用申请成功！")
+                                history.back();
+                            }
+                        }).catch(err => {
+                            console.log(err)
+                        });
+                    } else if (coment == "不通过") {
+                        axios.get('/ZP/Lygl_Sq_Qx', {
+                            params: {
+                                pass_checkComment: coment,
+                                ein_id: this.ruleForm.id,
+                            }
+                        }).then(res => {
+                            if (res.data > 0) {
+                                alert("录用申请失败！")
+                                history.back();
+                            }
+                        }).catch(err => {
+                            console.log(err)
+                        });
+                    }
+                },
+            },
+            mounted: function () {
+                this.fill();
+            }
+        })
+    </script>
+</body>
+
+</html>

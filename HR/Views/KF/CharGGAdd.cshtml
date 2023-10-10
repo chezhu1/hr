@@ -1,0 +1,140 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-trasitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"
+          href="../../css/table.css" type="text/css">
+    <script type="text/javascript"
+            src="../../javascript/comm/comm.js">
+    </script>
+
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+
+    <style>
+        #bd {
+            height: 30px;
+            width: 300px;
+        }
+
+        .el-form-item {
+            margin-left: -100px !important;
+        }
+    </style>
+</head>
+
+<script type="text/javascript">
+		function check(){
+			if (document.getElementById("publicChar.attributeKind").value==""){
+				alert("属性种类不能为空!!!");
+				return false;
+			}
+			if (document.getElementById("publicChar.attributeName").value==""){
+				alert("属性名称不能为空!!!");
+				return false;
+			}
+			document.forms[0].submit();
+		}
+</script>
+
+<body>
+    <div id="app">
+
+        <el-form :model="InsertData" :rules="urules" ref="uruleForm" label-width="100px">
+
+            <table width="100%">
+                <tr>
+                    <td>
+                        <font color="black">
+                            您正在做的业务是：人力资源--客户化设置--人力资源档案管理设置--公共属性设置--公共属性添加
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="button" value="提交" class="BUTTON_STYLE1" v-on:click="tj()">
+                        <input type="button" value="返回" class="BUTTON_STYLE1"
+                               onclick="history.back();">
+                    </td>
+                </tr>
+            </table>
+
+            <table width="100%" border="1" cellpadding=0 cellspacing=1
+                   bordercolorlight=#848284 bordercolordark=#eeeeee
+                   class="TABLE_STYLE1">
+                <tr>
+                    <td class="TD_STYLE1" width="19%">
+                        属性种类
+                    </td>
+                    <td class="TD_STYLE2" width="81%">
+                        <el-form-item prop="name">
+                            <el-input type="text" id="bd" v-model="InsertData.name" class="INPUT_STYLE1" name="cpc.attributeKind" />
+                        </el-form-item>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        属性名称
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="name">
+                            <el-input type="text" id="bd" v-model="InsertData.name1" class="INPUT_STYLE1" name="cpc.attributeName" />
+                        </el-form-item>
+                    </td>
+                </tr>
+            </table>
+        </el-form>
+    </div>
+    <script type="text/javascript">
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                InsertData: {
+                    name: "",
+                    name1: "",
+                },
+                urules: {
+                    name: { required: true, message: '请输入属性种类', trigger: 'blur' },
+                    name1: { required: true, message: '请输入属性名称', trigger: 'blur' },
+                },
+            },
+            methods: {
+                //添加
+                tj() {
+                    this.$refs.uruleForm.validate((valid) => {
+                        if (valid) {
+                            axios.get('/KF/CharInsert1', {
+                                params: {
+                                    attribute_kind: this.InsertData.name,
+                                    attribute_name: this.InsertData.name1,
+                                },
+                            }).then(res => {
+                                if (res.data > 0) {
+                                    alert("添加成功");
+                                    location.href = "/KF/Char_index1";
+                                }
+                            }).catch(err => {
+                                console.log(err);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                }
+            },
+        })
+    </script>
+
+</body>
+</html>
+

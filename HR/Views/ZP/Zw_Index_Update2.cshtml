@@ -1,0 +1,270 @@
+﻿
+@{
+    Layout = null;
+}
+@using Models;
+@model Major_release
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet"
+          href="../../../css/table.css" type="text/css">
+    <link rel="stylesheet"
+          href="../../../css/cwcalendar.css" type="text/css">
+    <script type="text/javascript"
+            src="../../../javascript/comm/comm.js">
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/comm/list.js">
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/calendar-ch.js">
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/jquery-1.7.2.js">
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/locate.js">
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/select.js">
+    </script>
+
+    <script type="text/javascript">
+        function doDelete(id) {
+            if (window.confirm("确认删除该项纪录？")) {
+                window.location.href("/HR_Fist/recruit/recruitAction!deletePosition?emajorRelease.mreId=" + id)
+            }
+
+        }
+    </script>
+
+</head>
+<body>
+    <div id="app">
+        @{Major_release major_Release = ViewBag.xgs;}
+        <el-form :model="Update" ref="uruleForm" label-width="100px">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <font color="black">您正在做的业务是：人力资源--招聘管理--职位发布管理--职位发布登记 </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="button" value="提交" class="BUTTON_STYLE1"
+                               v-on:click="mysubmit()">
+                        <input type="reset" value="清除" class="BUTTON_STYLE1">
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" border="1" cellpadding=0 cellspacing=1
+                   bordercolorlight=#848284 bordercolordark=#eeeeee
+                   class="TABLE_STYLE1">
+                <tr>
+                    <td class="TD_STYLE1" width="11%">
+                        I级机构
+                    </td>
+                    <td width="14%" class="TD_STYLE2">
+                        <el-input type="text" id="Ijg" readonly="readonly" v-model="Update.Ijg" class="INPUT_STYLE2" name="Ijg" />
+                    </td>
+                    <td width="11%" class="TD_STYLE1">
+                        II级机构
+                    </td>
+                    <td width="14%" class="TD_STYLE2">
+                        <el-input type="text" id="IIjg" readonly="readonly" v-model="Update.IIjg" class="INPUT_STYLE2" name="IIjg" />
+                    </td>
+                    <td width="11%" class="TD_STYLE1">
+                        III级机构
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="IIIjg" readonly="readonly" v-model="Update.IIIjg" class="INPUT_STYLE2" name="IIIjg" />
+                    </td>
+                    <td width="11%" class="TD_STYLE1">
+                        招聘类型
+                    </td>
+                    <td class="TD_STYLE2" colspan="2">
+                        <el-input type="text" id="zplx" v-model="Update.zplx" class="INPUT_STYLE2" name="zplx" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        职位分类
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="zwfl" readonly="readonly" v-model="Update.zwfl" class="INPUT_STYLE2" name="zwfl" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        职位名称
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="zwmc" readonly="readonly" v-model="Update.zwmc" class="INPUT_STYLE2" name="zwmc" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        招聘人数
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="zprs" v-model="Update.zprs" class="INPUT_STYLE2" name="zprs" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        截止日期
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="jzrq" v-model="Update.jzrq" class="INPUT_STYLE2" name="jzrq" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        登记人
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-input type="text" id="djr" v-model="Update.djr" class="INPUT_STYLE2" name="djr" />
+                    </td>
+                    <td class="TD_STYLE1">
+                        变更时间
+                    </td>
+                    <td class="TD_STYLE2">
+
+                        <el-input type="text" name="emajorRelease.registTime"
+                               id="nowTime" readonly="readonly"
+                               class="INPUT_STYLE2">
+                    </td>
+
+                    <td>&nbsp; </td>
+                    <td>&nbsp; </td>
+                    <td>&nbsp; </td>
+                    <td>&nbsp; </td>
+
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        职位描述
+                    </td>
+                    <td class="TD_STYLE2" colspan="8">
+                        <el-input type="text" id="zwms" v-model="Update.zwms" class="TEXTAREA_STYLE1" name="zwms" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        招聘要求
+                    </td>
+                    <td class="TD_STYLE2" colspan="8">
+                        <el-input type="text" id="zpyq" v-model="Update.zpyq" class="TEXTAREA_STYLE1" name="zpyq" />
+                    </td>
+
+                </tr>
+            </table>
+        </el-form>
+    </div>
+    <script type="text/javascript">
+        var upidd = 0;
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                Update: {
+                    Ijg: "",
+                    IIjg: "",
+                    IIIjg: "",
+                    zplx: "",
+                    zwfl: "",
+                    zwmc: "",
+                    zprs: "",
+                    jzrq: "",
+                    djr: "",
+                    zwms: "",
+                    zpyq: "",
+                },
+                idd:0
+            },
+            methods: {
+                find() {
+                    this.idd =@Html.Raw(Json.Encode(@major_Release.mre_id));
+                    this.Update.Ijg =@Html.Raw(Json.Encode(@major_Release.first_kind_name));
+                    this.Update.IIjg =@Html.Raw(Json.Encode(@major_Release.second_kind_name));
+                    this.Update.IIIjg =@Html.Raw(Json.Encode(@major_Release.third_kind_name));
+                    this.Update.zplx =@Html.Raw(Json.Encode(@major_Release.engage_type));
+                    this.Update.zwfl =@Html.Raw(Json.Encode(@major_Release.major_kind_name));
+                    this.Update.zwmc =@Html.Raw(Json.Encode(@major_Release.major_name));
+                    this.Update.zprs =@Html.Raw(Json.Encode(@major_Release.human_amount));
+                    this.Update.jzrq =@Html.Raw(Json.Encode(@major_Release.deadline));
+                    this.Update.djr =@Html.Raw(Json.Encode(@major_Release.register));
+                    this.Update.zwms =@Html.Raw(Json.Encode(@major_Release.major_describe));
+                    this.Update.zpyq =@Html.Raw(Json.Encode(@major_Release.engage_required));
+
+                },
+                mysubmit() {
+                    var time = document.getElementById("nowTime").value;
+                    axios.get('/ZP/Zw_Index_Update3', {
+                        params: {
+                            mre_id: this.idd,
+                            human_amount: this.Update.zprs,
+                            engage_type: this.Update.zplx,
+                            regist_time: time,
+                            major_describe: this.Update.zwms,
+                            engage_required: this.Update.zpyq,
+                        },
+                    }).then(res => {
+                        if (res.data > 0) {
+                            alert("修改成功");
+                            location.href = "/ZP/Zw_Index_Update";
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
+            },
+            mounted() {
+                this.find();
+            }
+        })
+    </script>
+
+    <script type="text/javascript">
+        window.onload = check;
+        function tick() {
+            var now = new Date();
+            var hours, minutes, seconds, noon;
+            var intHours, intMinutes, intSeconds;
+            intHours = now.getHours();
+            intMinutes = now.getMinutes();
+            intSeconds = now.getSeconds();
+            if (intHours < 24) {
+                hours = intHours + ":";
+                noon = "A.M.";
+            } else {
+                intHours = intHours - 24;
+                hours = intHours + ":";
+                noon = "P.M.";
+            }
+            if (intMinutes < 10) {
+                minutes = "0" + intMinutes + ":";
+            } else {
+                minutes = intMinutes + ":";
+            }
+            if (intSeconds < 10) {
+                seconds = "0" + intSeconds + " ";
+            } else {
+                seconds = intSeconds + " ";
+            }
+            timeString = hours + minutes + seconds;
+            var now = new Date();
+            document.getElementById("nowTime").value = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + timeString;
+            window.setTimeout("tick();", 1000);
+        }
+
+        //load事件
+        function check() {
+            //获得系统当前时间的方法
+            tick();
+        }
+    </script>
+
+</body>
+</html>

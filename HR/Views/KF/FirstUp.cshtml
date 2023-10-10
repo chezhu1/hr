@@ -1,0 +1,168 @@
+﻿
+@{
+    Layout = null;
+}
+
+@using Models;
+@model First_kind
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-trasitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"
+          href="../../css/table.css" type="text/css">
+    <script type="text/javascript"
+            src="../../javascript/comm/comm.js">
+    </script>
+    <style>
+        #bd {
+            height: 30px;
+            width: 300px;
+        }
+
+        .el-form-item {
+            margin-left: -100px !important;
+        }
+    </style>
+
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+</head>
+<body>
+    <div id="app">
+        @{First_kind first_Kind = ViewBag.s;}
+        <el-form :model="UpdateData" :rules="urules" ref="uruleForm" label-width="100px">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <font color="black">
+                            您正在做的业务是：人力资源--客户化设置--人力资源档案管理设置--I级机构设置--I级机构变更
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="button" value="提交" class="BUTTON_STYLE1" v-on:click="updateOK()">
+                        <input type="button" value="返回" class="BUTTON_STYLE1"
+                               onclick="history.back();">
+                    </td>
+                </tr>
+            </table>
+
+            <table width="100%" border="1" cellpadding=0 cellspacing=1
+                   bordercolorlight=#848284 bordercolordark=#eeeeee
+                   class="TABLE_STYLE1">
+                <tr>
+                    <td width="19%" class="TD_STYLE1">
+                        I级机构编号
+                        <el-input type="hidden" id="bd" name="cffk.firstKindId"  v-model="UpdateData.ffk_id" value=""
+                                  readonly="readonly" class="INPUT_STYLE1">
+                    </td>
+                    <td width="81%" class="TD_STYLE2">
+                        <el-input type="text" id="bd" name="cffk.firstKindId" v-model="UpdateData.id" value=""
+                                  readonly="readonly" class="INPUT_STYLE1">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        I级机构名称
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="name">
+                            <el-input type="text" id="bd" readonly v-model="UpdateData.name" name="cffk.firstKindName" value=""
+                                      class="INPUT_STYLE1">
+                        </el-form-item>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        薪酬发放责任人编号（多个编号之间请用"半角逗号"加"一个空格"隔开，如", "）
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="xc">
+                            <el-input rows="3" type="textarea" style="width:500px" name="cffk.firstKindSalaryId" v-model="UpdateData.xc" rows="4"
+                                      class="TEXTAREA_STYLE1"></el-input>
+                        </el-form-item>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TD_STYLE1">
+                        销售责任人编号（多个编号之间请用"半角逗号"加"一个空格"隔开，如", "）
+                    </td>
+                    <td class="TD_STYLE2">
+                        <el-form-item prop="xs">
+                            <el-input rows="3" type="textarea" style="width:500px" name="cffk.firstKindSaleId" v-model="UpdateData.xs" rows="4"
+                                      class="TEXTAREA_STYLE1"></el-input>
+                        </el-form-item>
+
+                    </td>
+                </tr>
+            </table>
+        </el-form>
+    </div>
+
+    <script type="text/javascript">
+        var upidd = 0;
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                UpdateData: {
+                    ffk_id: 0,
+                    id: 0,
+                    name: "",
+                    xc: "",
+                    xs: ""
+                },
+                urules: {
+                    name: { required: true, message: 'I级机构名称', trigger: 'blur' },
+                    xc: { required: true, message: '薪酬发放责任人编号', trigger: 'blur' },
+                    xs: { required: true, message: '销售责任人编号', trigger: 'blur' },
+                },
+            },
+            methods: {
+                find() {
+                    this.UpdateData.ffk_id =@Html.Raw(Json.Encode(@first_Kind.ffk_id));
+                    this.UpdateData.id =@Html.Raw(Json.Encode(@first_Kind.first_kind_id));
+                    this.UpdateData.name =@Html.Raw(Json.Encode(@first_Kind.first_kind_name));
+                    this.UpdateData.xc =@Html.Raw(Json.Encode(@first_Kind.first_kind_salary_id));
+                    this.UpdateData.xs =@Html.Raw(Json.Encode(@first_Kind.first_kind_sale_id));
+                },
+                updateOK() {
+                    this.$refs.uruleForm.validate((valid) => {
+                        if (valid) {
+                            axios.get('/KF/FirstUpdate', {
+                                params: {
+                                    ffk_id: this.UpdateData.ffk_id,
+                                    first_kind_id: "",
+                                    first_kind_name: this.UpdateData.name,
+                                    first_kind_salary_id: this.UpdateData.xc,
+                                    first_kind_sale_id: this.UpdateData.xs,
+                                },
+                            }).then(res => {
+                                if (res.data > 0) {
+                                    alert("修改成功");
+                                    location.href = "/KF/First_index";
+                                }
+                            }).catch(err => {
+                                console.log(err);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                }
+            },
+            mounted() {
+                this.find();
+
+            }
+        })
+    </script>
+
+</body>
+</html>

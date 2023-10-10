@@ -1,0 +1,162 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-trasitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>My JSP 'interview-list.jsp' starting page</title>
+    <link rel="stylesheet"
+          href="../../../css/table.css" type="text/css">
+    <link rel="stylesheet"
+          href="../../../css/cwcalendar.css"
+          type="text/css">
+    <script type="text/javascript"
+            src="../../../javascript/comm/comm.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/comm/list.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/calendar-ch.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/jquery-1.7.2.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/locate.js">
+
+    </script>
+    <script type="text/javascript"
+            src="../../../javascript/select.js">
+
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <el-card class="box-card" style="background-color:#FFFFCC">
+            <div slot="header" class="clearfix" style="background-color:#FFFFCC">
+                <el-breadcrumb separator="/">
+                    <el-breadcrumb-item :to="{ path: '' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item><a href="">客户化设置</a></el-breadcrumb-item>
+                    <el-breadcrumb-item>
+                        <font color="black">
+                            您正在做的业务是：人力资源--招聘管理--面试管理--面试筛选--面试结果列表
+                        </font>
+                    </el-breadcrumb-item>
+                </el-breadcrumb>
+            </div>
+            <div>
+                <el-table :data="list"
+                          border
+                          style="width: 100%"
+                          :header-cell-style="{ background: '#FFFFCC' }">
+                    <el-table-column prop="resume_id"
+                                     label="档案编号"
+                                     width="180">
+                    </el-table-column>
+                    <el-table-column prop="ein_id"
+                                     label="编号"
+                                     width="180"
+                                     class="wssb">
+                    </el-table-column>
+                    <el-table-column prop="human_name"
+                                     label="姓名"
+                                     width="180">
+                    </el-table-column>
+                    <el-table-column prop="human_major_kind_name"
+                                     label="职位分类"
+                                     width="180">
+                    </el-table-column>
+                    <el-table-column prop="human_major_name"
+                                     label="职位名称"
+                                     width="180">
+                    </el-table-column>
+                    <el-table-column prop="interview_amount"
+                                     label="面试次数"
+                                     width="180">
+                    </el-table-column>
+                    <el-table-column prop="registe_time"
+                                     label="面试时间"
+                                     width="180">
+                    </el-table-column>
+                    <el-table-column prop="multi_quality_degree"
+                                     label="综合素质"
+                                     width="180">
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <el-button size="mini"
+                                       v-on:click="dj(scope.row.resume_id,scope.row.ein_id)">筛选</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-pagination v-on:size-change="handleSizeChange"
+                               v-on:current-change="handleCurrentChange"
+                               :currentpage="currentPage"
+                               :page-sizes="[3, 6, 9, 12]"
+                               :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="rows">
+                </el-pagination>
+            </div>
+        </el-card>
+    </div>
+    <script src="~/Scripts/vue/dist/vue.js"></script>
+    <link href="~/Scripts/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <script src="~/Scripts/element-ui/lib/index.js"></script>
+    <script src="~/Scripts/axios/dist/axios.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                list: [],
+                currentPage: 1,
+                pageSize: 6,
+                rows: 1,
+
+            },
+            methods: {
+                fill() {
+                    axios.get('/ZP/Msgl_Sx1', {
+                        params: {
+                            CurrentPage: this.currentPage,
+                            PageSize: this.pageSize,
+                        },
+                    }).then(res => {
+                        this.list = res.data.List,
+                            this.rows = res.data.Rows
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                },
+                //每页显示数改变事件
+                handleSizeChange: function (size) {
+                    this.pageSize = size;
+                    this.currentPage = 1;
+                    this.fill();
+                },
+                //页码改变事件
+                handleCurrentChange: function (page) {
+                    this.currentPage = page;
+                    this.fill();
+                },
+                dj(id, id1) {
+                    location.href = '/ZP/Msgl_Sx_Sx?id=' + id+'&&id1='+id1;
+                },
+            },
+            mounted() {
+                this.fill();
+            }
+        })
+    </script>
+</body>
+</html>
+

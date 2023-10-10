@@ -1,0 +1,11 @@
+C:\Users\86157\Desktop\人力资源\DAO\bin\Debug\DAO.dll
+C:\Users\86157\Desktop\人力资源\DAO\bin\Debug\DAO.pdb
+C:\Users\86157\Desktop\人力资源\DAO\bin\Debug\Dapper.dll
+C:\Users\86157\Desktop\人力资源\DAO\bin\Debug\Models.dll
+C:\Users\86157\Desktop\人力资源\DAO\bin\Debug\Models.pdb
+C:\Users\86157\Desktop\人力资源\DAO\bin\Debug\Dapper.xml
+C:\Users\86157\Desktop\人力资源\DAO\obj\Debug\DAO.csproj.AssemblyReference.cache
+C:\Users\86157\Desktop\人力资源\DAO\obj\Debug\DAO.csproj.CoreCompileInputs.cache
+C:\Users\86157\Desktop\人力资源\DAO\obj\Debug\DAO.csproj.CopyComplete
+C:\Users\86157\Desktop\人力资源\DAO\obj\Debug\DAO.dll
+C:\Users\86157\Desktop\人力资源\DAO\obj\Debug\DAO.pdb
